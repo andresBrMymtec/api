@@ -2,7 +2,7 @@ from typing import List, Tuple
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableLambda
-from src.rag.retriever import retriever
+from src.rag.retriever import faiss_retriever as retriever
 from src.utils.helper_func import format_docs, _format_chat_history
 from src.rag.llm import OpenAiModels
 
@@ -37,6 +37,7 @@ chain = (
         "input": lambda x: x["input"],
         "chat_history": lambda x: _format_chat_history(x["chat_history"]),
     }
+    # | RunnableLambda(lambda x: (print("➡️ Payload to prompt:", x), x)[1])
     | prompt
     | llm.get_llm()
     | StrOutputParser()

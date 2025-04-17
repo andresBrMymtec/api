@@ -42,7 +42,7 @@ class VectorStore:
 
         elif self.store == 'faiss':
             vector_store = FAISS.load_local(
-                "src\\faiss-index",
+                "src/faiss-index",
                 open_ai_model.get_embeddings(),
                 allow_dangerous_deserialization=True)
 

@@ -44,8 +44,10 @@ chain = (
 )
 
 
-def get_response(input: str, chat_history: List[Tuple[str, str]] = []):
+async def get_response(input: str, chat_history: List[Tuple[str, str]] = None):
+    if chat_history is None:
+        chat_history = []
 
-    rta = chain.invoke({"input": input, "chat_history": chat_history})
+    rta = await chain.ainvoke({"input": input, "chat_history": chat_history})
 
     return rta

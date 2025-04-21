@@ -28,10 +28,12 @@ async def chat_endpoint(request: ChatRequest):
     chat_history = request.chatHistory
 
     try:
-        output = get_response(user_input, chat_history)
-    except Exception as e:
+        output = await get_response(user_input, chat_history)
 
+    except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+    return ChatResponse(response=output)
 
     # chat_model = Chats(
     #     usuario=request.usuario,
@@ -42,5 +44,3 @@ async def chat_endpoint(request: ChatRequest):
     # )
 
     # add_model(db, chat_model)
-
-    return ChatResponse(response=output)

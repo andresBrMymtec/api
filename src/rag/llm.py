@@ -9,7 +9,7 @@ os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
 
 
 class OpenAiModels:
-    def __init__(self, model_ai: str = "o3-mini", embeddings: str = "text-embedding-3-small"):
+    def __init__(self, model_ai: str = "gpt-4.1-nano", embeddings: str = "text-embedding-3-small"):
 
         self.model = model_ai
         self.llm = ChatOpenAI(model_name=model_ai)

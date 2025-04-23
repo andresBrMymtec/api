@@ -1,12 +1,16 @@
+from langchain_core.prompts import PromptTemplate
 from src.rag.vector_store import VectorStore
 from src.rag.llm import OpenAiModels
 from src.utils.config import Settings
 from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.retrievers import SelfQueryRetriever
+from langchain.retrievers.multi_query import MultiQueryRetriever
 
 settings: Settings = Settings()
 
-open_ai_model = OpenAiModels()
+open_ai_model = OpenAiModels(model_ai="o3-mini")
+
+llm = open_ai_model.get_llm()
 
 # Configuración del vector store
 
@@ -40,7 +44,7 @@ open_ai_model = OpenAiModels()
 # document_contents = "Intructivos operativos de Dux3 para atencion al cliente"
 
 # mongo_retriever = SelfQueryRetriever.from_llm(
-#     llm=open_ai_model.get_llm(),
+#     llm=llm,
 #     vectorstore=mongo_vector_db.get_store(),
 #     document_contents=document_contents,
 #     metadata_field_info=metadata_field_info,
@@ -48,5 +52,29 @@ open_ai_model = OpenAiModels()
 # )
 faiss_vector_db: VectorStore = VectorStore(store="faiss")
 
-
 faiss_retriever = faiss_vector_db.get_store().as_retriever()
+
+
+CUSTOM_QUERY_PROMPT = PromptTemplate(
+    input_variables=["question"],
+    template="""Como experto en búsqueda semántica, genera 3 variaciones únicas de la siguiente pregunta para recuperar documentos relevantes de una base de datos vectorial. 
+
+    Contexto clave:
+    - Los documentos tienen metadatos que incluyen: **nombre del documento**, **contenido** y **url**
+    - Las consultas deben ser útiles para buscar tanto en metadatos como en el contenido interno
+    - Prioriza diversidad lingüística y conceptual en las variaciones
+
+    Estrategias recomendadas:
+    1. Usa sinónimos y términos técnicos equivalentes
+    2. Varía entre enfoques generales y específicos
+    3. Combina aspectos de nombre, descripción y objetivos en diferentes proporciones
+    4. Incluye posibles abreviaciones o acrónimos relevantes
+    5. Crea versiones que expliciten aspectos implícitos de la pregunta original
+
+    Pregunta original: {question}
+    """
+)
+
+mq_retriever = MultiQueryRetriever.from_llm(retriever=faiss_retriever,
+                                            prompt=CUSTOM_QUERY_PROMPT,
+                                            llm=llm)

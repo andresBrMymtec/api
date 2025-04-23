@@ -9,26 +9,26 @@ import httpx
 import asyncio
 
 
-async def self_ping():
-    async with httpx.AsyncClient() as client:
-        while True:
-            await asyncio.sleep(180)  # 3 minutos = 180 segundos
-            try:
-                response = await client.get("https://dux-copilot-testing.onrender.com/")
-                print(f"Self-ping status: {response.status_code}")
-            except Exception as e:
-                print(f"Error en self-ping: {str(e)}")
+# async def self_ping():
+#     async with httpx.AsyncClient() as client:
+#         while True:
+#             await asyncio.sleep(180)  # 3 minutos = 180 segundos
+#             try:
+#                 response = await client.get("https://dux-copilot-testing.onrender.com/")
+#                 print(f"Self-ping status: {response.status_code}")
+#             except Exception as e:
+#                 print(f"Error en self-ping: {str(e)}")
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Iniciar la tarea al iniciar la app
-    asyncio.create_task(self_ping())
-    yield
-    # (Opcional) Código de limpieza al apagar la app
+# @asynccontextmanager
+# async def lifespan(app: FastAPI):
+#     # Iniciar la tarea al iniciar la app
+#     asyncio.create_task(self_ping())
+#     yield
+#     # (Opcional) Código de limpieza al apagar la app
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 app.title = "DuxCopilot"
 app.version = "1.0"

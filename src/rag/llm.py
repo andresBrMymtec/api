@@ -9,14 +9,17 @@ os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
 
 
 class OpenAiModels:
-    def __init__(self, model_ai: str = "gpt-4.1-nano", embeddings: str = "text-embedding-3-small"):
+    def __init__(self, model_ai: str | None = None, temp: float | None = None, embeddings: str = "text-embedding-3-large"):
 
         self.model = model_ai
-        self.llm = ChatOpenAI(model_name=model_ai)
-        self.embeddings = OpenAIEmbeddings(model=embeddings, dimensions=1024)
+        self.embeddings = embeddings
+        self.temp = temp
 
     def get_llm(self):
-        return self.llm
+        if self.temp is None:
+            return ChatOpenAI(model_name=self.model)
+
+        return ChatOpenAI(model_name=self.model, temperature=self.temp)
 
     def get_embeddings(self):
-        return self.embeddings
+        return OpenAIEmbeddings(model=self.embeddings, dimensions=512)

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, File, HTTPException, UploadFile
-from src.utils.mistral_func import load_and_extract
+
 
 document_router = APIRouter()
 

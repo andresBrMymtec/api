@@ -1,6 +1,7 @@
 from langchain_core.messages import AIMessage, HumanMessage
 from typing import List, Tuple
 
+
 def format_docs(docs):
     formatted = []
     for doc in docs:
@@ -8,6 +9,7 @@ def format_docs(docs):
         doc_str = f"Contenido: {doc.page_content}\nMetadatos: {doc.metadata}"
         formatted.append(doc_str)
     return "\n\n".join(formatted)
+
 
 def _format_chat_history(chat_history: List[Tuple[str, str]]):
     buffer = []

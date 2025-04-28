@@ -8,7 +8,7 @@ from langchain.retrievers.multi_query import MultiQueryRetriever
 
 settings: Settings = Settings()
 
-open_ai_model = OpenAiModels(model_ai="o3-mini")
+open_ai_model = OpenAiModels(model_ai="gpt-4.1-nano")
 
 llm = open_ai_model.get_llm()
 

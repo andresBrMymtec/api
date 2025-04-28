@@ -2,7 +2,8 @@ from typing import List, Tuple
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableLambda
-from src.rag.retriever import faiss_retriever as retriever
+from src.rag.retriever import mongo_retriever as retriever
+# from src.rag.retriever import faiss_retriever as retriever
 # from src.rag.retriever import mq_retriever as retriever
 from src.utils.helper_func import format_docs, _format_chat_history
 from src.rag.llm import OpenAiModels

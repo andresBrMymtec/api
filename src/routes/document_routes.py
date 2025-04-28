@@ -9,6 +9,7 @@ async def add_documents(file: UploadFile = File(...)):
     if file.content_type != "application/pdf":
         raise HTTPException(
             status_code=500, detail="Solo se permiten archivos PDF")
+
     pass
 
 

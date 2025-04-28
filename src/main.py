@@ -12,6 +12,7 @@ app = FastAPI()
 app.title = "DuxCopilot"
 app.version = "1.0"
 
+API_V = '/api/v1'
 # Schemas.Base.metadata.create_all(bind=engine)
 
 
@@ -24,8 +25,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(chat_router, prefix="/chat", tags=["Chats"])
-app.include_router(document_router, prefix="/docs", tags=["Documentos"])
+app.include_router(chat_router, prefix=f"{API_V}/chat", tags=["Chats"])
+app.include_router(
+    document_router, prefix=f"{API_V}/docs", tags=["Documentos"])
 
 
 @app.get("/")

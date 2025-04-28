@@ -1,7 +1,7 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.messages import AIMessage, HumanMessage
-from openai_func import gpt_tags
+from src.utils.openai_func import gpt_tags
 from typing import List, Tuple
 import os
 

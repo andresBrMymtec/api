@@ -10,5 +10,5 @@ class ChatRequest(BaseModel):
 
 
 class ChatResponse(BaseModel):
-    stautus: int
+    status: int
     response: str

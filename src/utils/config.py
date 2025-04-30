@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     COLLECTION_NAME: str
     DB_NAME: str
     OPENAI_API_KEY: str
+    DIMENSIONS: int
 
     class Config:
         env_file = ".env"

@@ -10,4 +10,5 @@ class ChatRequest(BaseModel):
 
 
 class ChatResponse(BaseModel):
+    stautus: int
     response: str

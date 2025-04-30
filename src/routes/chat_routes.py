@@ -33,7 +33,7 @@ async def chat_endpoint(request: ChatRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-    return ChatResponse(response=output)
+    return ChatResponse(status=200, response=output)
 
     # chat_model = Chats(
     #     usuario=request.usuario,

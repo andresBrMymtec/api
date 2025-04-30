@@ -47,3 +47,9 @@ class VectorStore:
                 allow_dangerous_deserialization=True)
 
         return vector_store
+
+    def get_client(self):
+        return self.client
+
+    def get_collection(self):
+        return self.MONGODB_COLLECTION

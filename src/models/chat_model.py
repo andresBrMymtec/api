@@ -3,8 +3,8 @@ from typing import List, Optional, Tuple
 
 
 class ChatRequest(BaseModel):
-    usuario: str
-    id_sesion: int
+    id_usuario: int
+    id_sesion: str
     chatHistory: Optional[List[Tuple[str, str]]] = Field(default_factory=list)
     input: str
 

@@ -4,9 +4,14 @@ from typing import List, Optional, Tuple
 
 class ChatRequest(BaseModel):
     id_usuario: int
+    id_cliente: int
     id_sesion: str
-    chatHistory: Optional[List[Tuple[str, str]]] = Field(default_factory=list)
+    esDux: bool
+    esFux: bool
+    esDuxGT: bool
+    versionSistema: str
     input: str
+    chatHistory: Optional[List[Tuple[str, str]]] = Field(default_factory=list)
 
 
 class ChatResponse(BaseModel):

@@ -6,7 +6,6 @@ from src.routes.document_routes import document_router
 import src.db.schemas as Schemas
 from src.db.databases import engine
 
-
 app = FastAPI()
 
 app.title = "DuxCopilot"

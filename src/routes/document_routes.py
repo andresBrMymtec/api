@@ -1,14 +1,11 @@
-from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, HTTPException
 from src.utils.helper_func import pdf_a_documentos
-from src.rag.vector_store import VectorStore
+from src.rag.vector_store import get_store, get_collection
 from src.models.document_models import AddDocumentModel, AddDocumentRTAModel, DelDocumentRTAModel, UpdateDocumentModel
-import tempfile
-from pathlib import Path
 import base64
 import binascii
 
-mongo_db: VectorStore = VectorStore(store="mongo")
-vector_store = mongo_db.get_store()
+vector_store = get_store()
 document_router = APIRouter()
 
 
@@ -48,7 +45,7 @@ async def del_documents(nombre: str = None):
 
     query_filter = {"fuente": nombre}
 
-    docs = mongo_db.get_collection()
+    docs = get_collection()
     result = docs.delete_many(query_filter)
     if result.deleted_count == 0:
         raise HTTPException(
@@ -74,7 +71,7 @@ async def patch_documents(request: UpdateDocumentModel, id: str = None):
     request = request.model_dump(exclude_unset=True)
     query_filter = {"fuente": id}
     update = {'$set': request}
-    docs = mongo_db.get_collection()
+    docs = get_collection()
     result = docs.update_many(query_filter, update)
     if result.matched_count == 0:
         raise HTTPException(

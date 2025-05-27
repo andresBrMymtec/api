@@ -10,46 +10,20 @@ settings: Settings = Settings()
 open_ai_model: OpenAiModels = OpenAiModels()
 # Conexión a MongoDB Atlas
 
+client = MongoClient(settings.MONGODB_ATLAS_CLUSTER_URI)
+MONGODB_COLLECTION = client[settings.DB_NAME][settings.COLLECTION_NAME]
 
-class VectorStore:
+vector_store = MongoDBAtlasVectorSearch(
+    collection=MONGODB_COLLECTION,
+    embedding=open_ai_model.get_embeddings(),
+    index_name=settings.ATLAS_VECTOR_SEARCH_INDEX_NAME,
+    relevance_score_fn="cosine",
+)
 
-    def __init__(self, store: str):
-        self.client = MongoClient(settings.MONGODB_ATLAS_CLUSTER_URI)
-        self.MONGODB_COLLECTION = self.client[settings.DB_NAME][settings.COLLECTION_NAME]
-        self.store: Literal["mongo", "faiss"] = store
 
-    def ping(self):
+def get_store():
+    return vector_store
 
-        if self.store == 'mongo':
-            try:
-                self.client.admin.command('ping')
-                print("Pinged your deployment. You successfully connected to MongoDB!")
-            except Exception as e:
-                print(e)
 
-        else:
-            print("Faiss no tiene Ping")
-
-    def get_store(self):
-
-        if self.store == 'mongo':
-            vector_store = MongoDBAtlasVectorSearch(
-                collection=self.MONGODB_COLLECTION,
-                embedding=open_ai_model.get_embeddings(),
-                index_name=settings.ATLAS_VECTOR_SEARCH_INDEX_NAME,
-                relevance_score_fn="cosine",
-            )
-
-        elif self.store == 'faiss':
-            vector_store = FAISS.load_local(
-                "src/faiss-index",
-                open_ai_model.get_embeddings(),
-                allow_dangerous_deserialization=True)
-
-        return vector_store
-
-    def get_client(self):
-        return self.client
-
-    def get_collection(self):
-        return self.MONGODB_COLLECTION
+def get_collection():
+    return MONGODB_COLLECTION

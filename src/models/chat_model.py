@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 
 class ChatRequest(BaseModel):
@@ -9,9 +9,11 @@ class ChatRequest(BaseModel):
     esDux: bool
     esFux: bool
     esDuxGT: bool
+    esDuxim: bool
     versionSistema: str
     input: str
-    chatHistory: Optional[List[Tuple[str, str]]] = Field(default_factory=list)
+    chatHistory: Optional[List[Tuple[str, str]]]
+    filtros: Optional[Dict[str, str]]
 
 
 class ChatResponse(BaseModel):

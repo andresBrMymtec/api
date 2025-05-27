@@ -1,15 +1,16 @@
-from src.rag.vector_store import VectorStore
-from src.utils.config import Settings
-from langchain_core.prompts import PromptTemplate
-from src.rag.llm import OpenAiModels
-from langchain.chains.query_constructor.base import AttributeInfo
-from langchain.retrievers import SelfQueryRetriever
-from langchain.retrievers.multi_query import MultiQueryRetriever
+# from src.rag.vector_store import get_store
+# from src.utils.config import Settings
+# from langchain_core.prompts import PromptTemplate
+# from src.rag.llm import OpenAiModels
+# from langchain.chains.query_constructor.base import AttributeInfo
+# from langchain.retrievers import SelfQueryRetriever
 
-settings: Settings = Settings()
 
-mongo_vector_db: VectorStore = VectorStore(store="mongo")
-mongo_retriever = mongo_vector_db.get_store().as_retriever()
+# settings: Settings = Settings()
+
+
+# mongo_retriever = get_store().as_retriever(
+#     search_kwargs={'pre_filter': {'esDux': True}})
 # open_ai_model = OpenAiModels(model_ai="gpt-4.1-nano")
 
 # llm = open_ai_model.get_llm()

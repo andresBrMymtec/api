@@ -10,13 +10,18 @@ async def chat_endpoint(request: ChatRequest):
 
     user_input = request.input
     chat_history = request.chatHistory
-    # filtros = request.filtros
-    filtros = {}
-    filtros['esDux'] = request.esDux
-    # filtros['esFux'] = request.esFux
-    # filtros['esDuxGT'] = request.esDuxGT
-    # filtros['esDuxim'] = request.esDuxim
-    # filtros['versionSistema'] = request.versionSistema
+    filtros = request.filtros
+
+    if request.esDux:
+        filtros['esDux'] = request.esDux
+    elif request.esFux:
+        filtros['esFux'] = request.esFux
+    elif request.esDuxGT:
+        filtros['esDuxGT'] = request.esDuxGT
+    elif request.esDuxim:
+        filtros['esDuxim'] = request.esDuxim
+
+    filtros['versionSistema'] = request.versionSistema
     print(filtros)
     try:
         output = await get_response(user_input, filtros, chat_history)

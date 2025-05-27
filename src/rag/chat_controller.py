@@ -48,7 +48,6 @@ async def get_response(input: str, filtros: dict, chat_history: List[Tuple[str, 
     if chat_history is None:
         chat_history = []
 
-    # retriever = get_store().as_retriever(search_kwargs={'pre_filter': filtros})
     retriever = get_store().as_retriever(search_kwargs={'pre_filter': filtros})
 
     chain = (
@@ -62,7 +61,8 @@ async def get_response(input: str, filtros: dict, chat_history: List[Tuple[str, 
         | llm.get_llm()
         | StrOutputParser()
     )
-
-    rta = await chain.ainvoke({"input": input, "chat_history": chat_history})
-
+    try:
+        rta = await chain.ainvoke({"input": input, "chat_history": chat_history})
+    except Exception as e:
+        print(e)
     return rta

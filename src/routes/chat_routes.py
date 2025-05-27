@@ -14,11 +14,11 @@ async def chat_endpoint(request: ChatRequest):
 
     if request.esDux:
         filtros['esDux'] = request.esDux
-    elif request.esFux:
+    if request.esFux:
         filtros['esFux'] = request.esFux
-    elif request.esDuxGT:
+    if request.esDuxGT:
         filtros['esDuxGT'] = request.esDuxGT
-    elif request.esDuxim:
+    if request.esDuxim:
         filtros['esDuxim'] = request.esDuxim
 
     filtros['versionSistema'] = request.versionSistema

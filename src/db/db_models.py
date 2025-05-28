@@ -1,8 +1,12 @@
+from datetime import datetime
+from typing import Any, Dict, List
 from pydantic import BaseModel
 
 
-class CrearRegistroModel(BaseModel):
-    usuario: str
-    id_sesion: int
+class ChatAudit(BaseModel):
+    id_usuario: int
     pregunta: str
+    filtros: Dict[str, Any]
+    documentos: List[Any]
     respuesta: str
+    fecha: datetime = datetime.now()

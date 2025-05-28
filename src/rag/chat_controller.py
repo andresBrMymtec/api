@@ -49,10 +49,16 @@ async def get_response(input: str, filtros: dict, chat_history: List[Tuple[str, 
         chat_history = []
 
     retriever = get_store().as_retriever(search_kwargs={'pre_filter': filtros})
+    docs_salida = []
+
+    def extraer_doc(input):
+        docs = retriever.invoke(input)
+        [docs_salida.append(d) for d in docs]
+        return format_docs(docs)
 
     chain = (
         {
-            "data":  RunnableLambda(lambda x: retriever.invoke(x["input"])) | format_docs,
+            "data":  RunnableLambda(lambda x: extraer_doc(x["input"])),
             "input": lambda x: x["input"],
             "chat_history": lambda x: _format_chat_history(x["chat_history"]),
         }
@@ -65,4 +71,4 @@ async def get_response(input: str, filtros: dict, chat_history: List[Tuple[str, 
         rta = await chain.ainvoke({"input": input, "chat_history": chat_history})
     except Exception as e:
         print(e)
-    return rta
+    return rta, docs_salida

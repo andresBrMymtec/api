@@ -1,8 +1,12 @@
 from src.rag.chat_controller import get_response
 from fastapi import APIRouter, HTTPException
 from src.models.chat_model import ChatRequest, ChatResponse
+from src.db.db_models import ChatAudit
+from src.db.audit_db import get_collection
 
 chat_router = APIRouter()
+
+chat_col = get_collection()
 
 
 @chat_router.post("/", response_model=ChatResponse)
@@ -28,8 +32,18 @@ async def chat_endpoint(request: ChatRequest):
     filtros['versionSistema'] = request.versionSistema
     print(filtros)
     try:
-        output = await get_response(user_input, filtros, chat_history)
+        output, docs = await get_response(user_input, filtros, chat_history)
 
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    registro: ChatAudit = ChatAudit(id_usuario=request.id_usuario,
+                                    pregunta=user_input,
+                                    filtros=filtros,
+                                    documentos=docs,
+                                    respuesta=output)
+    try:
+        await chat_col.insert_one(registro.model_dump())
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

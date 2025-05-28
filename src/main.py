@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.utils.http_error_handler import HttpErrorHandler
 from src.routes.chat_routes import chat_router
 from src.routes.document_routes import document_router
-import src.db.schemas as Schemas
-from src.db.databases import engine
+# import src.db.schemas as Schemas
+from src.db.audit_db import get_collection
+from src.db.db_models import ChatAudit
 
 app = FastAPI()
 
@@ -12,8 +13,6 @@ app.title = "DuxCopilot"
 app.version = "1.0"
 
 API_V = '/api/v1'
-# Schemas.Base.metadata.create_all(bind=engine)
-
 
 app.add_middleware(HttpErrorHandler)
 app.add_middleware(

@@ -13,7 +13,7 @@ async def chat_endpoint(request: ChatRequest):
     filtros = request.filtros
 
     if request.esDux and request.esDux:
-        lista_or = [{'esDux': True}, {'esFux': True}]
+        lista_or = {{'esDux': True}, {'esFux': True}}
         filtros["$or":lista_or]
     else:
         if request.esDux:

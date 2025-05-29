@@ -78,7 +78,3 @@
 #     Pregunta original: {question}
 #     """
 # )
-
-# faiss_mq_retriever = MultiQueryRetriever.from_llm(retriever=faiss_retriever,
-#                                             prompt=CUSTOM_QUERY_PROMPT,
-#                                             llm=llm)

@@ -5,8 +5,7 @@ from pydantic import BaseModel
 class AddDocumentModel(BaseModel):
     fuente: str
     file_id: Optional[int | str] = None
-    url: str
-    archivo: str
+    contenido: str
     esDux: bool
     esFux: bool
     esDuxGT: bool
@@ -31,8 +30,7 @@ class UpdateDocumentModel(BaseModel):
     versionSistema: Optional[str] = None
     area: Optional[str] = None
     programa: Optional[str] = None
-    url: Optional[str] = None
-    archivo: Optional[str] = None
+    contenido: Optional[str] = None
 
 
 class UpdateDocumentRTAModel(BaseModel):

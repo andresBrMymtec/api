@@ -1,9 +1,7 @@
 import os
 import base64
 import binascii
-from typing import Any, Dict
 from fastapi import APIRouter, HTTPException
-from pymongo import AsyncMongoClient
 from src.utils.config import Settings
 from src.utils.helper_func import pdf_a_documentos
 from src.rag.vector_store import get_store, get_collection
@@ -16,10 +14,10 @@ settings: Settings = Settings()
 
 @document_router.post("/")
 def add_documents(request: AddDocumentModel):
-    archivo = request.archivo
-    campos = request.model_dump(exclude={"archivo"})
+    contenido = request.contenido
+    campos = request.model_dump(exclude={"contenido"})
     try:
-        b = base64.b64decode(archivo, validate=True)
+        b = base64.b64decode(contenido, validate=True)
 
     except binascii.Error:
         raise HTTPException(
@@ -56,9 +54,11 @@ async def del_documents(id: int = None):
 
     query_filter = {"file_id": id}
 
-    docs = get_collection()
+    db = get_collection()
     try:
-        result = docs.delete_many(query_filter)
+        update = {'$set': {"activo": False}}
+        result = db.update_many(query_filter, update)
+
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"No se pudo eliminar el documento.{e}")
@@ -71,7 +71,7 @@ async def del_documents(id: int = None):
 
 @document_router.patch("/{id}", response_model=UpdateDocumentRTAModel)
 async def patch_documents(request: UpdateDocumentModel, id: int):
-    campos = request.model_dump(exclude_unset=True, exclude={"archivo"})
+    campos = request.model_dump(exclude_unset=True, exclude={"contenido"})
     body = request.model_dump(exclude_unset=True)
 
     if id is None:
@@ -81,11 +81,11 @@ async def patch_documents(request: UpdateDocumentModel, id: int):
     db = get_collection()
     query_filter = {"file_id": id}
 
-    if 'archivo' in body:
-        archivo = body['archivo']
+    if 'contenido' in body:
+        contenido = body['contenido']
         # --------VALIDAR EL BASE64----------
         try:
-            b = base64.b64decode(archivo, validate=True)
+            b = base64.b64decode(contenido, validate=True)
         except binascii.Error:
             raise HTTPException(
                 status_code=500, detail="No es un valido el base64")

@@ -7,7 +7,7 @@ from src.rag.vector_store import get_store
 from src.utils.helper_func import format_docs, _format_chat_history
 from src.rag.llm import OpenAiModels
 
-llm: OpenAiModels = OpenAiModels(model_ai='gpt-4.1-mini', temp=0.2)
+llm: OpenAiModels = OpenAiModels(model_ai='gpt-4.1-mini', temp=0.1)
 
 template = """
 [CONTEXTO]
@@ -17,7 +17,7 @@ Las preguntas están relacionadas exclusivamente con los sistemas Dux o Fux.
 Las preguntas estan basadas en un Software de comercio internacional que se encarga de la gestión de operaciones como importaciones, exportaciones, despachos de aduana y todo lo relacioado al comercio exterior.
 
 
-[INSTRUCCIONES OBLIGATORIAS]
+[IMPORTANTE!!! - INSTRUCCIONES OBLIGATORIAS]
 1. NUNCA respondas con información que no esté en el contexto.
 2. SIEMPRE interpretá y explicá la información para que el usuario la entienda claramente.
 3. SI la respuesta incluye pasos, enumeralos de forma clara.
@@ -25,13 +25,13 @@ Las preguntas estan basadas en un Software de comercio internacional que se enca
 5. SI NO encontrás la respuesta en el contexto, decí que no la encontrás y pedí reformular la pregunta. NO inventes ni completes con conocimientos propios, y no menciones funtes ni urls.
 6. SIEMPRE al final de la respuesta incluí las fuentes utilizando exactamente este formato:
    - Cada documento citado debe tener su nombre entre los tags <FUENTE></FUENTE>.
-   - La URL correspondiente entre los tags <URL></URL>.
+   - El ID correspondiente, del metadato 'file_id' entre los tags <ID></ID>.
    - NUNCA uses la palabra "Fuente:" antes de los tags.
    - NO omitas esta parte si usás información de los documentos.
 
 
 [EJEMPLO CORRECTO DE FUENTES]
-<FUENTE>SISTEMA DUX - INSTRUCTIVO PSAD.pdf</FUENTE> <URL>path/del/servidor/SISTEMA%20DUX%20-%20INSTRUCTIVO%20PSAD.pdf</URL>
+<FUENTE>SISTEMA DUX - INSTRUCTIVO PSAD.pdf</FUENTE> <ID>1</ID>
 
 
 [TU TAREA]

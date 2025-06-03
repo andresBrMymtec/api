@@ -14,8 +14,8 @@ async def chat_endpoint(request: ChatRequest):
 
     user_input = request.input
     chat_history = request.chatHistory
-    filtros = request.filtros
-
+    # filtros = request.filtros
+    filtros = {}
     if request.esDux and request.esDux:
         lista_or = [{'esDux': True}, {'esFux': True}]
         filtros["$or"] = lista_or
@@ -30,6 +30,8 @@ async def chat_endpoint(request: ChatRequest):
         filtros['esDuxim'] = request.esDuxim
 
     filtros['versionSistema'] = request.versionSistema
+    filtros['activo'] = True
+
     print(filtros)
     try:
         output, docs = await get_response(user_input, filtros, chat_history)

@@ -29,7 +29,8 @@ async def chat_endpoint(request: ChatRequest):
     if request.esDuxim:
         filtros['esDuxim'] = request.esDuxim
 
-    filtros['versionSistema'] = request.versionSistema
+    # meno o igual a los ultimos nrs
+    filtros['versionSistema'] = {"$lte": request.versionSistema}
     filtros['activo'] = True
 
     print(filtros)

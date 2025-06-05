@@ -115,27 +115,27 @@ settings: Settings = Settings()
 #     return UpdateDocumentRTAModel(status=200, data=f"Se actualizó el documento con id: {id}")
 
 
-@document_router.delete("/{id}", response_model=DelDocumentRTAModel)
-async def del_documents(id: int = None, db=Depends(get_async_db)):
-    if id is None:
-        raise HTTPException(
-            status_code=500, detail="Debe ingresar un id de documento a eliminar.")
+# @document_router.delete("/{id}", response_model=DelDocumentRTAModel)
+# async def del_documents(id: int = None, db=Depends(get_async_db)):
+#     if id is None:
+#         raise HTTPException(
+#             status_code=500, detail="Debe ingresar un id de documento a eliminar.")
 
-    query_filter = {"file_id": id}
+#     query_filter = {"file_id": id}
 
-    db = get_collection()
-    try:
-        update = {'$set': {"activo": False}}
-        result = await db.update_many(query_filter, update)
+#     db = get_collection()
+#     try:
+#         update = {'$set': {"activo": False}}
+#         result = await db.update_many(query_filter, update)
 
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"No se pudo eliminar el documento.{e}")
-    if result.deleted_count == 0:
-        raise HTTPException(
-            status_code=500, detail="No se encontro un documento con ese nombre")
+#     except Exception as e:
+#         raise HTTPException(
+#             status_code=500, detail=f"No se pudo eliminar el documento.{e}")
+#     if result.deleted_count == 0:
+#         raise HTTPException(
+#             status_code=500, detail="No se encontro un documento con ese nombre")
 
-    return DelDocumentRTAModel(status=200, data=query_filter)
+#     return DelDocumentRTAModel(status=200, data=query_filter)
 
 
 @document_router.post("/", response_model=AddDocumentRTAModel)

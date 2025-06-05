@@ -146,10 +146,13 @@ async def add_or_update(request: AddDocumentModel, db=Depends(get_async_db)):
     campos['file_id'] = request.file_id + 1000
     query_filter: Dict[str, str] = {"file_id": id}
     existe = await db.find_one(query_filter)
-    contenido: str | None = None if request.contenido == "" else request.contenido
+    contenido: str | None = None if request.contenido.strip() == "" else request.contenido
+    print("contenido ", contenido)
     # --------SI EXISTE EL ARTICULO----------
     if existe:
+        print("Existe")
         if contenido is not None:
+            print("Contenido not None ni empty")
             # --------BORRAR EL DOCUMENTO VIEJO----------
             try:
                 result = await db.delete_many(query_filter)

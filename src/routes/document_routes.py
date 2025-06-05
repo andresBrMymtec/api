@@ -140,6 +140,7 @@ async def del_documents(id: int = None, db=Depends(get_async_db)):
 
 @document_router.post("/", response_model=AddDocumentRTAModel)
 async def add_or_update(request: AddDocumentModel, db=Depends(get_async_db)):
+    print("req contenido ", request.contenido)
     id: int = request.file_id
     campos: Dict[str, Any] = request.model_dump(
         exclude_unset=True, exclude={"contenido"})

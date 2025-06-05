@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_pymupdf4llm import PyMuPDF4LLMLoader
@@ -44,6 +45,21 @@ def pdf_a_documentos(file_path: str, campos: Dict[str, str | int | bool]) -> Lis
         chunk_size=settings.DIMENSIONS, chunk_overlap=128)
 
     docs = text_splitter.split_documents(documents)
+
+    return docs
+
+
+def MD_a_documentos(texto: str, campos: Dict[str, str | int | bool]) -> List[Document]:
+
+    doc: list = [Document(
+        page_content=texto,
+        metadata=campos
+    )]
+
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=settings.DIMENSIONS, chunk_overlap=128)
+
+    docs = text_splitter.split_documents(doc)
 
     return docs
 

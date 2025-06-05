@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 class AddDocumentModel(BaseModel):
     fuente: str
-    file_id: Optional[int | str] = None
-    contenido: str
+    file_id: int
+    contenido: str | None
     esDux: bool
     esFux: bool
     esDuxGT: bool
@@ -13,11 +13,12 @@ class AddDocumentModel(BaseModel):
     versionSistema: str
     area: str
     programa: str
+    activo: bool
 
 
 class AddDocumentRTAModel(BaseModel):
     status: int
-    ids: List[str]
+    data: str
 
 
 class UpdateDocumentModel(BaseModel):
@@ -31,6 +32,7 @@ class UpdateDocumentModel(BaseModel):
     area: Optional[str] = None
     programa: Optional[str] = None
     contenido: Optional[str] = None
+    activo: Optional[bool] = None
 
 
 class UpdateDocumentRTAModel(BaseModel):

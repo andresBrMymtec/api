@@ -10,9 +10,9 @@ class AddDocumentModel(BaseModel):
     esFux: bool
     esDuxGT: bool
     esDuxim: bool
-    versionSistema: str
-    area: str
-    programa: str
+    versionSistema: Optional[str] = None
+    area: Optional[str] = None
+    programa: Optional[str] = None
     activo: bool
 
 

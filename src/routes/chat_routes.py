@@ -16,18 +16,19 @@ async def chat_endpoint(request: ChatRequest):
     chat_history = request.chatHistory
     # filtros = request.filtros
     filtros = {}
-    if request.esDux and request.esDux:
-        lista_or = [{'esDux': True}, {'esFux': True}]
+    if request.esDux or request.esFux or request.esDuxGT or request.esDuxim:
+        lista_or = [{'esDux': True}, {'esFux': True},
+                    {'esDuxGT': True}, {'esDuxim': True}]
         filtros["$or"] = lista_or
-    else:
-        if request.esDux:
-            filtros['esDux'] = request.esDux
-        if request.esFux:
-            filtros['esFux'] = request.esFux
-    if request.esDuxGT:
-        filtros['esDuxGT'] = request.esDuxGT
-    if request.esDuxim:
-        filtros['esDuxim'] = request.esDuxim
+    # else:
+    #     if request.esDux:
+    #         filtros['esDux'] = request.esDux
+    #     if request.esFux:
+    #         filtros['esFux'] = request.esFux
+    # if request.esDuxGT:
+    #     filtros['esDuxGT'] = request.esDuxGT
+    # if request.esDuxim:
+    #     filtros['esDuxim'] = request.esDuxim
 
     # meno o igual a los ultimos nrs
     filtros['versionSistema'] = {"$lte": request.versionSistema}

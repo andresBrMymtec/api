@@ -143,11 +143,11 @@ async def add_or_update(request: AddDocumentModel, db=Depends(get_async_db)):
     print("req contenido ", request.contenido)
     id: int = request.file_id
     campos: Dict[str, Any] = request.model_dump(exclude={"contenido"})
-    campos['file_id'] = request.file_id + 1000
+
     campos['versionSistema'] = "" if request.versionSistema is None else request.versionSistema.strip()
     campos['area'] = "" if request.area is None else request.area.strip()
     campos['programa'] = "" if request.programa is None else request.programa.strip()
-    campos
+
     query_filter: Dict[str, str] = {"file_id": campos["file_id"]}
     existe = await db.find_one(query_filter)
     contenido: str | None = None if request.contenido.strip() == "" else request.contenido

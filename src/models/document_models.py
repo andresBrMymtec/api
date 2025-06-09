@@ -5,14 +5,14 @@ from pydantic import BaseModel
 class AddDocumentModel(BaseModel):
     fuente: str
     file_id: int
-    contenido: str | None
+    contenido: str | None = None
     esDux: bool
     esFux: bool
     esDuxGT: bool
     esDuxim: bool
-    versionSistema: Optional[str] = None
-    area: Optional[str] = None
-    programa: Optional[str] = None
+    versionSistema: str | None = None
+    area: str | None = None
+    programa: str | None = None
     activo: bool
 
 

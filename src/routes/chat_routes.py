@@ -43,6 +43,7 @@ async def chat_endpoint(request: ChatRequest):
 
     registro: ChatAudit = ChatAudit(id_usuario=request.id_usuario,
                                     pregunta=user_input,
+                                    historial=chat_history,
                                     filtros=filtros,
                                     documentos=docs,
                                     respuesta=output)
